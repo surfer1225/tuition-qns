@@ -128,12 +128,14 @@ def string_search(P, T):
     k = len(P) - 1      # Represents alignment of end of P relative to T
     previous_k = -1     # Represents alignment in previous phase (Galil's rule)
     while k < len(T):
+        #print(k)
         i = len(P) - 1  # Character to compare in P
         h = k           # Character to compare in T
         while i >= 0 and h > previous_k and P[i] == T[h]:   # Matches starting from end of P
             i -= 1
             h -= 1
         if i == -1 or h == previous_k:  # Match has been found (Galil's rule)
+            print("match found")
             matches.append(k - len(P) + 1)
             k += len(P)-F[1] if len(P) > 1 else 1
         else:   # No match, shift by max of bad character and good suffix rules
@@ -148,3 +150,42 @@ def string_search(P, T):
             previous_k = k if shift >= i+1 else previous_k  # Galil's rule
             k += shift
     return matches
+
+#another implementation of string search
+'''
+start at beginning of string
+start at beginning of match
+while not at the end of the string:
+    if match_position is 0:
+        Jump ahead m characters
+        Look at character, jump back based on table 1
+        If match the first character:
+            advance match position
+        advance string position
+    else if I match:
+        if I reached the end of the match:
+           FOUND MATCH - return
+        else:
+           advance string position and match position.
+    else:
+        pos1 = table1[ character I failed to match ]
+        pos2 = table2[ how far into the match I am ]
+        if pos1 < pos2:
+            jump back pos1 in string
+            set match position at beginning
+        else:
+            set match position to pos2
+FAILED TO MATCH
+'''
+def find1(L, S):
+    cnt = 0;
+    while (L.find(S)>-1):
+        L = L[L.index(S)+1:]
+        print (L)
+        cnt+=1
+    return cnt
+
+print (find1("aallhellollladflldfa", "ll"))
+#print (string_search("ll", "aallhello"))
+#print (("aallhello").count("ll"))
+
